@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <Windows.h>
 #include <random>
+#include <chrono>
+#include <fstream>
 
 
 
@@ -38,14 +40,12 @@ void print_matrix(const T* matrix, size_t size)
 
 
 
-size_t get_available_memory()
+size_t get_available_memory(std::ofstream& fout)
 {
 
     MEMORYSTATUSEX status;
     status.dwLength = sizeof(status);
     GlobalMemoryStatusEx(&status);
-    std::cout << "Total physical memory: " << status.ullTotalPhys << " bytes\n";
-    std::cout << "Available physical memory: " << status.ullAvailPhys << " bytes\n";
 
     return status.ullAvailPhys;
 
@@ -54,7 +54,7 @@ size_t get_available_memory()
 
 
 template <typename T>
-time_t test(size_t N ,const T& min, const T& max, bool show_input = false, bool show_output = false)
+double test(size_t N ,const T& min, const T& max, bool show_input = false, bool show_output = false)
 {
 
     T* vector = new T[N];
@@ -62,17 +62,16 @@ time_t test(size_t N ,const T& min, const T& max, bool show_input = false, bool 
     T* result = new T[N] {};
 
     std::random_device rd;
-    std::uniform_int_distribution<T> dist(min, max);
+    std::uniform_real_distribution<double> dist(min, max);
 
-
-    for (size_t i = 0; i < N; ++i)
+    /*for (size_t i = 0; i < N; ++i)
     {
         vector[i] = dist(rd);
     }
     for (size_t i = 0; i < N * N; ++i)
     {
         matrix[i] = dist(rd);
-    }
+    }*/
 
     if (show_input)
     {
@@ -86,11 +85,16 @@ time_t test(size_t N ,const T& min, const T& max, bool show_input = false, bool 
     }
     
 
+
+    auto start = std::chrono::high_resolution_clock::now();
     result[0] += matrix[0] * vector[0];
     for (size_t i = 1; i < N * N; ++i)
     {
         result[i % N] += matrix[i] * vector[i / N];
     }
+    auto end = std::chrono::high_resolution_clock::now();
+
+
 
     delete[] vector;
     delete[] matrix;
@@ -104,7 +108,53 @@ time_t test(size_t N ,const T& min, const T& max, bool show_input = false, bool 
 
     delete[] result;
 
-    return 0;
+
+
+    auto elapsed_time = end - start;
+
+    return std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count();
+
+}
+
+template <typename T>
+double vector_by_matrix(T* vector, T* matrix, T* result, size_t N)
+{
+
+    auto start = std::chrono::high_resolution_clock::now();
+    result[0] += matrix[0] * vector[0];
+    for (size_t i = 0; i < N; ++i)
+    {
+        for (size_t j = 0; j < N; ++j)
+        {
+            result[i] += vector[i] * matrix[i + j * N];
+        }
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto elapsed_time = end - start;
+
+    return std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count();
+
+}
+
+template <typename T>
+double matrix_by_vector(T* vector, T* matrix, T* result, size_t N)
+{
+
+    auto start = std::chrono::high_resolution_clock::now();
+    result[0] += matrix[0] * vector[0];
+    for (size_t i = 0; i < N; ++i)
+    {
+        for (size_t j = 0; j < N; ++j)
+        {
+            result[i] += vector[i] * matrix[i + j * N];
+        }
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto elapsed_time = end - start;
+
+    return std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count();
 
 }
 
@@ -113,13 +163,35 @@ time_t test(size_t N ,const T& min, const T& max, bool show_input = false, bool 
 int main()
 {
 
-    typedef int chosen_type;
+    std::ofstream fout;
+    fout.open("info.csv");
+    if (!fout.is_open())
+    {
+        std::cerr << "File error.\n";
+        return -1;
+    }
 
-    size_t N = (-1 + sqrt(-2 + 4 * get_available_memory() / sizeof(chosen_type)) / 2);
 
-    std::cout << "N: " << N << '\n';
 
-    test<chosen_type>(N, 0, 10, true, true);
+    typedef double chosen_type;
+
+
+
+    chosen_type min, max;
+    std::cout << "Enter min and max values for elements: ";
+    std::cin >> min >> max;
+    fout << "Lower bound: " << min << " ;" << "Upper bound: " << max << '\n';
+
+    fout << "\n====== TESTS ======\n";
+    fout << "N;time(ms);Max N;\n";
+    for (size_t N = 1000, max_N = 1001; N <= max_N; N += 1000)
+    {
+        max_N = (-1 + sqrt(-2 + 4 * get_available_memory(fout) / sizeof(chosen_type)) / 2);
+        double time = test<chosen_type>(N, min, max, 0, 0);
+        fout << N << ';' << time << ';' << max_N << ";\n";
+    }
+
+
 
     return 0;
 
