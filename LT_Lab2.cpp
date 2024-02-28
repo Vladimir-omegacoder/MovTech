@@ -149,7 +149,8 @@ int main()
     fout << "Lower bound: " << min << " ;" << "Upper bound: " << max << '\n';
 
 
-    const size_t N = 3;
+
+    /*const size_t N = 3;
     chosen_type* vector = new chosen_type[N];
     chosen_type* matrix = new chosen_type[N * N];
     chosen_type* result = new chosen_type[N]{};
@@ -166,9 +167,7 @@ int main()
         matrix[i] = dist(rd);
     }
 
-
-
-    /*std::cout << "Vector:\n";
+    std::cout << "Vector:\n";
     print_vector(vector, N);
     std::cout << '\n';
 
@@ -192,20 +191,53 @@ int main()
     std::cout << '\n';*/
 
 
-    fout << "\n====== TESTS ======\n";
-    fout << "N;time(ms);Max N;\n";
+
     for (size_t N = 1000, max_N = 1000; N <= max_N; N += 1000)
     {
+
         max_N = (-1 + sqrt(-2 + 4 * get_available_memory(fout) / sizeof(chosen_type)) / 2);
-        double time = vector_by_matrix_advanced<chosen_type>(N, min, max, 0, 0);
-        fout << N << ';' << time << ';' << max_N << ";\n";
+
+        chosen_type* vector = new chosen_type[N];
+        chosen_type* matrix = new chosen_type[N * N];
+        chosen_type* result = new chosen_type[N]{};
+
+        std::random_device rd;
+        std::uniform_real_distribution<double> dist(min, max);
+        double time;
+
+        for (size_t i = 0; i < N; ++i)
+        {
+            vector[i] = dist(rd);
+        }
+        for (size_t i = 0; i < N * N; ++i)
+        {
+            matrix[i] = dist(rd);
+        }
+
+        time = matrix_by_vector(vector, matrix, result, N);
+        fout << "======================\n";
+        fout << "N: " << N << ";" << "Max N: " << max_N << ';' << '\n';
+
+        fout << "---Matrix by vector---\n";
+        fout << time << ';' << '\n';
+
+        time = vector_by_matrix(vector, matrix, result, N);
+        fout << "---Vector by matrix---\n";
+        fout << time << ';' << '\n';
+
+        time = vector_by_matrix_advanced(vector, matrix, result, N);
+        fout << "---Vector by matrix(advanced)---\n";
+        fout << time << ';' << '\n';
+
+        delete[] vector;
+        delete[] matrix;
+        delete[] result;
+
     }
 
+    fout.close();
 
-
-    delete[] vector;
-    delete[] matrix;
-    delete[] result;
+    std::cout << "Done.\n";
 
     return 0;
 

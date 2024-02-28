@@ -1,1 +1,189 @@
 Lower bound: 0 ;Upper bound: 10
+======================
+N: 1000;Max N: 45957;
+---Matrix by vector---
+1;
+---Vector by matrix---
+2;
+---Vector by matrix(advanced)---
+6;
+======================
+N: 2000;Max N: 45958;
+---Matrix by vector---
+6;
+---Vector by matrix---
+8;
+---Vector by matrix(advanced)---
+26;
+======================
+N: 3000;Max N: 45955;
+---Matrix by vector---
+13;
+---Vector by matrix---
+25;
+---Vector by matrix(advanced)---
+58;
+======================
+N: 4000;Max N: 46015;
+---Matrix by vector---
+24;
+---Vector by matrix---
+43;
+---Vector by matrix(advanced)---
+103;
+======================
+N: 5000;Max N: 46020;
+---Matrix by vector---
+37;
+---Vector by matrix---
+72;
+---Vector by matrix(advanced)---
+163;
+======================
+N: 6000;Max N: 46116;
+---Matrix by vector---
+54;
+---Vector by matrix---
+104;
+---Vector by matrix(advanced)---
+244;
+======================
+N: 7000;Max N: 45544;
+---Matrix by vector---
+74;
+---Vector by matrix---
+145;
+---Vector by matrix(advanced)---
+318;
+======================
+N: 8000;Max N: 45566;
+---Matrix by vector---
+97;
+---Vector by matrix---
+240;
+---Vector by matrix(advanced)---
+416;
+======================
+N: 9000;Max N: 46016;
+---Matrix by vector---
+123;
+---Vector by matrix---
+283;
+---Vector by matrix(advanced)---
+525;
+======================
+N: 10000;Max N: 46095;
+---Matrix by vector---
+154;
+---Vector by matrix---
+388;
+---Vector by matrix(advanced)---
+646;
+======================
+N: 11000;Max N: 46064;
+---Matrix by vector---
+183;
+---Vector by matrix---
+542;
+---Vector by matrix(advanced)---
+780;
+======================
+N: 12000;Max N: 46153;
+---Matrix by vector---
+217;
+---Vector by matrix---
+857;
+---Vector by matrix(advanced)---
+936;
+======================
+N: 13000;Max N: 46081;
+---Matrix by vector---
+256;
+---Vector by matrix---
+940;
+---Vector by matrix(advanced)---
+1094;
+======================
+N: 14000;Max N: 46087;
+---Matrix by vector---
+296;
+---Vector by matrix---
+1054;
+---Vector by matrix(advanced)---
+1266;
+======================
+N: 15000;Max N: 45999;
+---Matrix by vector---
+340;
+---Vector by matrix---
+1328;
+---Vector by matrix(advanced)---
+1454;
+======================
+N: 16000;Max N: 46191;
+---Matrix by vector---
+387;
+---Vector by matrix---
+2424;
+---Vector by matrix(advanced)---
+1653;
+======================
+N: 17000;Max N: 46184;
+---Matrix by vector---
+438;
+---Vector by matrix---
+1923;
+---Vector by matrix(advanced)---
+1867;
+======================
+N: 18000;Max N: 46122;
+---Matrix by vector---
+490;
+---Vector by matrix---
+2086;
+---Vector by matrix(advanced)---
+2093;
+======================
+N: 19000;Max N: 46211;
+---Matrix by vector---
+549;
+---Vector by matrix---
+2335;
+---Vector by matrix(advanced)---
+2333;
+======================
+N: 20000;Max N: 46245;
+---Matrix by vector---
+609;
+---Vector by matrix---
+2675;
+---Vector by matrix(advanced)---
+2583;
+======================
+N: 21000;Max N: 46187;
+---Matrix by vector---
+669;
+---Vector by matrix---
+2746;
+---Vector by matrix(advanced)---
+2848;
+======================
+N: 22000;Max N: 45954;
+---Matrix by vector---
+743;
+---Vector by matrix---
+2952;
+---Vector by matrix(advanced)---
+3133;
+======================
+N: 23000;Max N: 46003;
+---Matrix by vector---
+802;
+---Vector by matrix---
+3390;
+---Vector by matrix(advanced)---
+3413;
+======================
+N: 24000;Max N: 46082;
+---Matrix by vector---
+896;
