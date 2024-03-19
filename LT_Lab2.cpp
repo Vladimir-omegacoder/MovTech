@@ -38,7 +38,7 @@ void print_matrix(const T* matrix, size_t size)
 
 
 
-size_t get_available_memory(std::ofstream& fout)
+size_t get_available_memory()
 {
 
     MEMORYSTATUSEX status;
@@ -61,10 +61,10 @@ double vector_by_matrix_advanced(T* vector, T* matrix, T* result, size_t N)
     }
 
     auto start = std::chrono::high_resolution_clock::now();
-    result[0] += matrix[0] * vector[0];
+    result[0] += vector[0] * matrix[0];
     for (size_t i = 1; i < N * N; ++i)
     {
-        result[i % N] += matrix[i] * vector[i / N];
+        result[i % N] += vector[i / N] * matrix[i];
     }
     auto end = std::chrono::high_resolution_clock::now();
 
@@ -139,7 +139,7 @@ int main()
 
 
 
-    typedef int chosen_type;
+    typedef float chosen_type;
 
 
 
@@ -150,7 +150,7 @@ int main()
 
 
 
-    /*const size_t N = 3;
+    /*const size_t N = 7;
     chosen_type* vector = new chosen_type[N];
     chosen_type* matrix = new chosen_type[N * N];
     chosen_type* result = new chosen_type[N]{};
@@ -166,6 +166,7 @@ int main()
     {
         matrix[i] = dist(rd);
     }
+
 
     std::cout << "Vector:\n";
     print_vector(vector, N);
@@ -188,14 +189,17 @@ int main()
     vector_by_matrix_advanced(vector, matrix, result, N);
     std::cout << "vector_by_matrix_advanced:\n";
     print_vector(result, N);
-    std::cout << '\n';*/
+    std::cout << '\n';
+    std::cin;*/
 
 
+
+    fout << "N" << ";" << "Max N" << ';' << "M x V" << ';' << "V x M" << ';' << "V x M adv" << ';' << '\n';
 
     for (size_t N = 1000, max_N = 1000; N <= max_N; N += 1000)
     {
 
-        max_N = (-1 + sqrt(-2 + 4 * get_available_memory(fout) / sizeof(chosen_type)) / 2);
+        max_N = (-1 + sqrt(-2 + 4 * get_available_memory() / sizeof(chosen_type)) / 2);
 
         chosen_type* vector = new chosen_type[N];
         chosen_type* matrix = new chosen_type[N * N];
@@ -214,20 +218,18 @@ int main()
             matrix[i] = dist(rd);
         }
 
-        time = matrix_by_vector(vector, matrix, result, N);
-        fout << "======================\n";
-        fout << "N: " << N << ";" << "Max N: " << max_N << ';' << '\n';
+        fout << N << ';' << max_N << ';';
 
-        fout << "---Matrix by vector---\n";
-        fout << time << ';' << '\n';
+        time = matrix_by_vector(vector, matrix, result, N);
+        fout << time << ';';
 
         time = vector_by_matrix(vector, matrix, result, N);
-        fout << "---Vector by matrix---\n";
-        fout << time << ';' << '\n';
+        fout << time << ';';
 
         time = vector_by_matrix_advanced(vector, matrix, result, N);
-        fout << "---Vector by matrix(advanced)---\n";
-        fout << time << ';' << '\n';
+        fout << time << ';';
+
+        fout << '\n';
 
         delete[] vector;
         delete[] matrix;
